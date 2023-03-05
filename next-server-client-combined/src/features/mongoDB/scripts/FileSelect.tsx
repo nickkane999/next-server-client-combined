@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { getDirectories, getFiles } from "./util";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
-const ScriptSelect = ({ processFile }: any) => {
+const FileSelect = ({ processFile }: any) => {
   const [directory, setDirectory] = useState("");
   const [file, setFile] = useState("");
   const [directoryList, setDirectoryList] = useState([]);
   const [fileList, setFileList] = useState([]);
-
   const filePath = "/features/mongoDB/files";
 
   useEffect(() => {
@@ -28,15 +27,16 @@ const ScriptSelect = ({ processFile }: any) => {
     assignFiles();
   }, [directory]);
 
+  const { Group, Label, Control } = Form;
   return (
     <Container>
       <Form>
-        <Form.Group as={Row} controlId="directorySelect">
-          <Form.Label column sm={2}>
+        <Group as={Row} controlId="directorySelect">
+          <Label column sm={2}>
             Directory:
-          </Form.Label>
+          </Label>
           <Col sm={10}>
-            <Form.Control as="select" value={directory} onChange={(e) => setDirectory(e.target.value)}>
+            <Control as="select" value={directory} onChange={(e) => setDirectory(e.target.value)}>
               <option value="">Select a directory</option>
               {directoryList.length > 0 &&
                 directoryList.map((dir) => (
@@ -44,16 +44,16 @@ const ScriptSelect = ({ processFile }: any) => {
                     {dir}
                   </option>
                 ))}
-            </Form.Control>
+            </Control>
           </Col>
-        </Form.Group>
+        </Group>
 
-        <Form.Group as={Row} controlId="fileSelect">
-          <Form.Label column sm={2}>
+        <Group as={Row} controlId="fileSelect">
+          <Label column sm={2}>
             File:
-          </Form.Label>
+          </Label>
           <Col sm={10}>
-            <Form.Control as="select" value={file} onChange={(e) => setFile(e.target.value)}>
+            <Control as="select" value={file} onChange={(e) => setFile(e.target.value)}>
               <option value="">Select a file</option>
               {fileList.length > 0 &&
                 fileList.map((file) => (
@@ -61,20 +61,20 @@ const ScriptSelect = ({ processFile }: any) => {
                     {file}
                   </option>
                 ))}
-            </Form.Control>
+            </Control>
           </Col>
-        </Form.Group>
+        </Group>
 
-        <Form.Group as={Row}>
+        <Group as={Row}>
           <Col sm={{ span: 10, offset: 2 }}>
             <Button type="button" onClick={() => processFile(filePath + "/" + directory + "/" + file)}>
               Run script
             </Button>
           </Col>
-        </Form.Group>
+        </Group>
       </Form>
     </Container>
   );
 };
 
-export default ScriptSelect;
+export default FileSelect;

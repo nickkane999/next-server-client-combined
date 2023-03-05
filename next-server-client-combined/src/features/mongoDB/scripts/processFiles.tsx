@@ -1,40 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import DirectorySelect from "./DirectorySelect";
 
-const ProcessFiles = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const createUser = async () => {
-    const res = await fetch("/api/mongoDB/crud/createUser", {
+const ProcessFile = () => {
+  const processFiles = async (filePath: string) => {
+    const res = await fetch("/api/mongoDB/scripts/processFiles", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ filePath }),
     });
     const data = await res.json();
-    console.log("Created user");
+    console.log("Processed Files");
     window.location.reload();
   };
 
   return (
     <>
-      <h2>Create new user</h2>
-      <form>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <br />
-        <button type="button" onClick={createUser}>
-          Create User
-        </button>
-      </form>
+      <DirectorySelect processFile={processFiles} />
     </>
   );
 };
 
-export default ProcessFiles;
+export default ProcessFile;

@@ -10,10 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const folderPath = path.join(FOLDER_PATH, filePath);
     const folderContents = await fs.promises.readdir(folderPath, { withFileTypes: true });
-
     const files = folderContents.filter((file) => file.isFile()).map((file) => file.name);
-    console.log(folderContents);
-    console.log(files);
 
     res.status(200).json({ files });
   } catch (error) {
