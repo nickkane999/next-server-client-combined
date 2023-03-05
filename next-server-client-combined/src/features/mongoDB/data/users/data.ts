@@ -7,6 +7,7 @@ const data = {
   display,
   update,
   table: "users",
+  model: "User",
 };
 
 export default data;
