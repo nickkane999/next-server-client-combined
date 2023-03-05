@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
 import connect from "../mongoDB";
 
 const uri = process.env.MONGODB_URI;
@@ -7,29 +7,33 @@ const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "DELETE") {
+  if (req.method !== "POST") {
     console.log("Method not allowed: " + req.method);
     res.status(405).end(); // Method Not Allowed
     return;
   }
 
   try {
-    const { userId } = req.body;
-    console.log(req.body.userId);
     console.log("Connecting");
     const client = await connect();
     const database = client.db("test");
+
+    const { formData, fields, table } = req.body;
+    const newRecord: { [key: string]: any } = {};
+    console.log(fields);
+    console.log(formData);
+    for (const field of fields) {
+      const { name } = field;
+      newRecord[name] = formData[name];
+    }
+    console.log(newRecord);
+
     database
-      .collection("users")
-      .findOneAndDelete({ _id: new ObjectId(userId) })
-      .then((user) => {
-        if (user) {
-          console.log(`Deleting user from database: ${user}`);
-          res.status(201).json({ message: "User deleted" });
-        } else {
-          console.log(`ID provided was not valid for a user: ${userId}`);
-          res.status(404).json({ message: "No valid entry found for provided ID" });
-        }
+      .collection(table)
+      .insertOne(newRecord)
+      .then(() => {
+        console.log(`Added record to ${table}: ${newRecord}`);
+        res.status(201).json({ message: "Record created" });
       })
       .catch((err) => {
         res.status(500).json({ error: err });

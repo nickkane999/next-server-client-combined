@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Username",
+    "field": "username"
+  },
+  {
+    "label": "First Name",
+    "field": "fname"
+  },
+  {
+    "label": "Last Name",
+    "field": "lname"
+  },
+  {
+    "label": "Email",
+    "field": "email"
+  },
+  {
+    "label": "Phone",
+    "field": "phone"
+  }
+]

@@ -18,24 +18,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const client = await connect();
     const database = client.db("test");
 
-    const { userId, fname, lname, username, email, phone } = req.body;
-    const filter = { _id: new ObjectId(userId) };
-    const update = {
-      $set: {
-        fname,
-        lname,
-        username,
-        email,
-        phone,
-      },
-    };
+    const { recordId, table, ...record } = req.body;
+    const filter = { _id: new ObjectId(recordId) };
+    const update = { $set: record };
+    if (record._id) delete update.$set._id;
 
     database
-      .collection("users")
+      .collection(table)
       .updateOne(filter, update)
       .then(() => {
-        console.log(`User updated: ${userId}`);
-        res.status(200).json({ message: "User updated" });
+        console.log(`Record updated: ${recordId}`);
+        res.status(200).json({ message: "Record updated" });
       })
       .catch((err) => {
         res.status(500).json({ error: err });
