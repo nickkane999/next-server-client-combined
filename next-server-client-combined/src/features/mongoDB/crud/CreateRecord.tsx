@@ -32,7 +32,7 @@ const CreateRecord = ({ fields, table }: any) => {
           </Group>
         ))}
         <Button variant="primary" type="button" onClick={createUser}>
-          Create User
+          Create Record
         </Button>
       </Form>
     </>

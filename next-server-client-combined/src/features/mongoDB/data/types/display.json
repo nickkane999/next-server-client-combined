@@ -1,22 +1,14 @@
 [
   {
-    "label": "Username",
-    "field": "username"
+    "label": "Type",
+    "field": "type"
   },
   {
-    "label": "First Name",
-    "field": "fname"
+    "label": "Name",
+    "field": "name"
   },
   {
-    "label": "Last Name",
-    "field": "lname"
-  },
-  {
-    "label": "Email",
-    "field": "email"
-  },
-  {
-    "label": "Phone",
-    "field": "phone"
+    "label": "Description",
+    "field": "description"
   }
 ]
