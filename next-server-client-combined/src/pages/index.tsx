@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
@@ -15,15 +14,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>Template links</div>
-        <ul>
-          <li>
-            <Link href="/mongoDB">MongoDB</Link>
-          </li>
-          <li>
-            <Link href="/chatGPT">ChatGPT</Link>
-          </li>
-        </ul>
+        <div className="container">
+          <h1>Template links</h1>
+          <ul>
+            <li>
+              <Link href="/mongoDB">MongoDB</Link>
+            </li>
+            <li>
+              <Link href="/chatGPT">ChatGPT</Link>
+            </li>
+          </ul>
+        </div>
       </main>
     </>
   );

@@ -1,17 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient } from "mongodb";
-import connect from "./mongoDB";
-
-type Data = {
-  message: string;
-};
+import { MongoClient, ObjectId } from "mongodb";
+import connect from "../mongoDB";
 
 const uri = process.env.MONGODB_URI;
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  if (req.method !== "POST") {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "PUT") {
     console.log("Method not allowed: " + req.method);
     res.status(405).end(); // Method Not Allowed
     return;
@@ -22,21 +18,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const client = await connect();
     const database = client.db("test");
 
-    const { username, password } = req.body; // assuming username and password are required fields
-    const newUser = { username, password };
+    const { userId, fname, lname, username, email, phone } = req.body;
+    const filter = { _id: new ObjectId(userId) };
+    const update = {
+      $set: {
+        fname,
+        lname,
+        username,
+        email,
+        phone,
+      },
+    };
 
     database
       .collection("users")
-      .insertOne(newUser)
+      .updateOne(filter, update)
       .then(() => {
-        console.log(`User added to database: ${newUser}`);
-        res.status(201).json({ message: "User created" });
+        console.log(`User updated: ${userId}`);
+        res.status(200).json({ message: "User updated" });
       })
       .catch((err) => {
         res.status(500).json({ error: err });
       });
-
-    // res.status(200).json({ msg: "No errors" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

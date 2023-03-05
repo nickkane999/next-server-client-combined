@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
-import connect from "./mongoDB";
+import connect from "../mongoDB";
 
 type Data = {
   names: string[];

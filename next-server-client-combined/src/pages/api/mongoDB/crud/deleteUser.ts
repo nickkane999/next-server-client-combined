@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient, ObjectId } from "mongodb";
-import connect from "./mongoDB";
+import connect from "../mongoDB";
 
 const uri = process.env.MONGODB_URI;
 
